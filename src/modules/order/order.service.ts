@@ -1,4 +1,6 @@
+import strict from "node:assert/strict";
 import { prisma } from "../../lib/prisma";
+import { OrderStatus } from "../../../generated/prisma/enums";
 
 
 const createOrder=async(userId:string,payload:any)=>{
@@ -76,8 +78,29 @@ const getAllOrders=async()=>{
   return result
 }
 
+const updateOrderStatus = async(orderId:string,status:string)=>{
+  const order = await prisma.order.findUnique({
+    where:{
+      id:orderId
+    }
+  })
+  if(!order){
+    throw new Error("Order not found")
+  }
+  const result = await prisma.order.update({
+    where:{
+      id:orderId
+    },
+    data:{
+      status:status as OrderStatus
+    }
+  })
+  return result;
+}
+
 
 export const orderService={
   createOrder,
-  getAllOrders
+  getAllOrders,
+  updateOrderStatus
 }

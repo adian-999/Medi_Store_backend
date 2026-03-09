@@ -34,7 +34,23 @@ const getAllOrders=async(req:Request,res:Response)=>{
   }
 }
 
+const updateOrderStatus=async(req:Request,res:Response)=>{
+  try{
+
+    const result = await orderService.updateOrderStatus(req.params.id as string, req.body.status as string);
+    res.status(200).json(result)
+
+  }catch(err:any){
+    res.status(500).json({
+      success:false,
+      message:err.message
+
+    })
+  }
+}
+
 export const orderController={
   createOrder,
-  getAllOrders
+  getAllOrders,
+  updateOrderStatus
 }
