@@ -55,10 +55,30 @@ const updateMedi=async(req:Request,res:Response)=>{
 }
 
 
+const deleteMedi=async(req:Request,res:Response)=>{
+  try{
+
+
+
+    const result = await mediService.deleteMedi(req.params.id as string);
+
+    res.status(201).json(result)
+
+  }catch(err){
+    res.status(400).json({
+      error:"deleting medicine failed",
+      details:err
+    })
+  }
+}
+
+
+
 
 export const mediController={
   createMedi,
   getAllMedi,
-  updateMedi
+  updateMedi,
+  deleteMedi
 }
 

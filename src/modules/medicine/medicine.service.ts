@@ -49,6 +49,23 @@ const updateMedi = async(id:string,payload:any)=>{
 
 }
 
+const deleteMedi = async(id:string)=>{
+  const medicine =await prisma.medicine.findUnique({
+    where:{
+      id
+    }
+  })
+  if(!medicine){
+    throw new Error("Medicine not found")
+  }
+  const result = await prisma.medicine.delete({
+    where:{
+      id
+    }
+  })
+  return result;
+}
+
 
 
 
@@ -56,5 +73,7 @@ const updateMedi = async(id:string,payload:any)=>{
 export const mediService={
   createMedi,
   getAllMedi,
-  updateMedi
+  updateMedi,
+  deleteMedi
 }
+
